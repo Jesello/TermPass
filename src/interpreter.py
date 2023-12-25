@@ -2,7 +2,7 @@ import cmd
 import os
 import crypt
 import inputs
-from color import *
+from functions import *
 from start import setup
 import conf
 
@@ -19,55 +19,30 @@ class App(cmd.Cmd):
 
     def do_keys(self,args):
         
-        color = Color()
-    
-        print(c("\nAll available keys:\n",color.info_color))
-        
-        for i in crypt.Crypt().get_keys():
-            print(f"- {i} -")
-        print()
+        list_keys()
 
     def do_rm(self,args):
         
-        r = conf.conf()
-        
-        try:
-            os.remove(f"{r.pass_dir}/{args}.gpg")
-        except:
-            pass
+        remove_file(args)
 
     def do_ls(self,args):
         
-        color = Color()
-        r = conf.conf()
-    
-        print(c("\nAll stored passwords:\n",color.info_color))
-        for i in [f for f in os.listdir(r.pass_dir) if not f.startswith('.')]:
-            a,b = os.path.splitext(i)
-            print(f"- {a} -")
-        print()
+        list_passwords()
 
     def do_setup(self,args):
         setup()
 
     def do_conf(self,args):
         
-         r = conf.conf()
-         print(f"\n{r.get_conf()}\n")
+         view_conf()
     
     def do_color(self,args):
         
-        color = Color()
-        color.change_color()
-        
-        print(c("\nRestart to apply new colors",color.info_color))
+        change_colors()
     
     def default(self,args):
         
-        r = conf.conf()
-        
-        if f"{args}.gpg" in [f for f in os.listdir(r.pass_dir) if not f.startswith('.')]:
-            crypt.Crypt().decrypt(args,inputs.ask_password())
+        get_password(args)
 
     def emptyline(self):
         pass

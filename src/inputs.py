@@ -102,9 +102,6 @@ def get_struct():
             
     return struct
 
-
-
-
 def get_key():
     
     color = Color()
@@ -122,7 +119,7 @@ def get_key():
     while True:
         try:
             index = int(input(c("index: ",color.input_color)))
-            key = re.findall("<(.*?)>",keys[index])[0]
+            key = keys[index].split(" ")[0]
             return key
         except:
             pass
